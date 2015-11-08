@@ -1,7 +1,12 @@
 
+import classpdam.Class_Printer;
 import classpdam.KoneksiDatabase;
 import classpdam.class_pegawai;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,7 +40,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
     private DefaultTableModel model = new javax.swing.table.DefaultTableModel(
             new Object[][]{},
             new String[]{
-                "NIP", "Nama", "Kantor", "Early", "Late", "On-time", "Other", "Kehadiran (%)", "Reward"
+                "NIP", "Nama", "Kantor", "Early", "Late", "On-Time", "Etc", "Kehadiran(%)", "Reward"
             }
     ) {
         Class[] types = new Class[]{
@@ -52,7 +57,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
     public FormPrintLaporanPersentase() {
         initComponents();
         this.setTitle("Persentase Kehadiran");
-         ClassLoader cl = this.getClass().getClassLoader();
+        ClassLoader cl = this.getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
             this.setIconImage(image);
@@ -98,9 +103,15 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     o[0] = r.getString("NIP");
                     o[1] = r.getString("namapegawai");
                     o[2] = r.getString("namakantor");
-                    o[3] = countEarly(r.getString("NIP"));
-                    o[4] = countLate(r.getString("NIP"));;
-                    o[5] = countOnTime(r.getString("NIP"));;
+                    if (cbStat.getSelectedItem().equals("Masuk")) {
+                        o[3] = countEarlyMasuk(r.getString("NIP"));
+                        o[4] = countLateMasuk(r.getString("NIP"));
+                        o[5] = countOnTimeMasuk(r.getString("NIP"));
+                    } else {
+                        o[3] = countEarlyKeluar(r.getString("NIP"));
+                        o[4] = countLateKeluar(r.getString("NIP"));
+                        o[5] = countOnTimeKeluar(r.getString("NIP"));
+                    }                               
                     o[6] = countOther(r.getString("NIP"));;
                     int total = Integer.parseInt(o[3].toString())
                             + Integer.parseInt(o[4].toString())
@@ -110,7 +121,12 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                             + Integer.parseInt(o[5].toString()))
                             * 100 / total;
                     o[7] = persentase;
-                    o[8] = Integer.parseInt(o[3].toString()) * 5000;
+                    if (cbStat.getSelectedItem().equals("Masuk")) {
+                       o[8] = Integer.parseInt(o[3].toString()) * 5000;
+                    } else {
+                       o[8] = Integer.parseInt(o[4].toString()) * 5000; 
+                    }
+                    
                     i++;
                     countPegawai = i;
                     model.addRow(o);
@@ -130,7 +146,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
         }
     }
 
-    private int countEarly(String nip) {
+    private int countEarlyMasuk(String nip) {
         int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
@@ -156,6 +172,11 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     break;
             }
         }
+        return hasil;
+    }
+
+    private int countEarlyKeluar(String nip) {
+        int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
             try (Statement s = c.createStatement();
@@ -183,7 +204,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
         return hasil;
     }
 
-    private int countLate(String nip) {
+    private int countLateMasuk(String nip) {
         int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
@@ -209,6 +230,11 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     break;
             }
         }
+        return hasil;
+    }
+
+    private int countLateKeluar(String nip) {
+        int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
             try (Statement s = c.createStatement();
@@ -236,7 +262,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
         return hasil;
     }
 
-    private int countOnTime(String nip) {
+    private int countOnTimeMasuk(String nip) {
         int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
@@ -262,6 +288,11 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     break;
             }
         }
+        return hasil;
+    }
+
+    private int countOnTimeKeluar(String nip) {
+        int hasil = 0;
         try {
             Connection c = KoneksiDatabase.getKoneksi();
             try (Statement s = c.createStatement();
@@ -351,8 +382,6 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabel = new javax.swing.JTable();
         cbKantor = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         txNamaKantor = new javax.swing.JTextField();
@@ -360,24 +389,20 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
         tglakhir = new org.jdesktop.swingx.JXDatePicker();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabel = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cbStat = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        tabel.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tabel);
 
         cbKantor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbKantor.addActionListener(new java.awt.event.ActionListener() {
@@ -396,6 +421,76 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        tabel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tabel);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("PERSENTASE ABSENSI");
+
+        jLabel4.setText("Kasubbag");
+
+        jLabel5.setText("Admin");
+
+        jLabel6.setText("Kepala");
+
+        jLabel7.setText("Mengetahui");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel4)
+                .addGap(177, 177, 177)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(74, 74, 74))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
+                .addContainerGap(86, Short.MAX_VALUE))
+        );
+
+        cbStat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masuk", "Keluar" }));
 
         jMenu1.setText("Home");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -419,23 +514,26 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txNamaKantor)
-                    .addComponent(cbKantor, 0, 118, Short.MAX_VALUE))
+                    .addComponent(cbKantor, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
-                .addComponent(tglawal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tglakhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(tglawal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tglakhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbStat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(99, 99, 99))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -448,10 +546,12 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     .addComponent(tglakhir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txNamaKantor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txNamaKantor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbStat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -500,12 +600,38 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        try {
-            MessageFormat header = new MessageFormat("Data Rekap Detail Absen Karyawan PDAM");
-            MessageFormat footer = new MessageFormat("Halaman{0,number,integer}");
-            tabel.print(JTable.PrintMode.FIT_WIDTH, header, footer);
-        } catch (java.awt.print.PrinterException e) {
-            System.err.format("Cannot Print %s%n", e.getMessage());
+        /*try {
+         MessageFormat header = new MessageFormat("Data Rekap Detail Absen Karyawan PDAM");
+         MessageFormat footer = new MessageFormat("Halaman{0,number,integer}");
+         tabel.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+         } catch (java.awt.print.PrinterException e) {
+         System.err.format("Cannot Print %s%n", e.getMessage());
+         }*/
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        if (pj.printDialog()) {
+            PageFormat pf = pj.defaultPage();
+            Paper paper = pf.getPaper();
+            //ukuran lebar dalam inci
+            double width = 8.3d * 72d;
+            //ukuran panjang dalam inci
+            double height = 11.7d * 72d;
+            double margin = 4;
+            paper.setSize(width, height);
+            paper.setImageableArea(
+                    margin,
+                    margin,
+                    width - (margin * 2),
+                    height - (margin * 2));
+            pf.setOrientation(PageFormat.PORTRAIT);
+            pf.setPaper(paper);
+
+            pj.setPrintable(new Class_Printer(jPanel1), pf);
+
+            try {
+                pj.print();
+            } catch (PrinterException ex) {
+                ex.printStackTrace();
+            }
         }
     }//GEN-LAST:event_jMenu2MouseClicked
 
@@ -546,12 +672,19 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbKantor;
+    private javax.swing.JComboBox cbStat;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabel;
     private org.jdesktop.swingx.JXDatePicker tglakhir;
