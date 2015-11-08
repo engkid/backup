@@ -84,7 +84,7 @@ public class Absensi extends javax.swing.JFrame {
     public Absensi() {
         initComponents();
         this.setTitle("Aplikasi Absensi PDAM Garut 1.0");
-         ClassLoader cl = this.getClass().getClassLoader();
+        ClassLoader cl = this.getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
             this.setIconImage(image);
@@ -93,7 +93,7 @@ public class Absensi extends javax.swing.JFrame {
         }
         loadDataKantor();
         Tabel.setModel(model);
-        runClock();        
+        runClock();
     }
 
     private void TikTok() {
@@ -242,6 +242,7 @@ public class Absensi extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tabel = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -334,6 +335,18 @@ public class Absensi extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton4);
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logout13.png"))); // NOI18N
+        jButton7.setText("Keluar");
+        jButton7.setFocusable(false);
+        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton7);
 
         jTabbedPane1.addTab("Home", jToolBar1);
 
@@ -485,6 +498,12 @@ public class Absensi extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        Login asup = new Login();
+        asup.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     private int getCount(String namaKantor) {
         int hasil = 0;
         try {
@@ -561,6 +580,7 @@ public class Absensi extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
