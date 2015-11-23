@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 import javax.swing.Timer;
 
 /*
@@ -78,7 +79,7 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
     public FormAbsensiMasuk() {
         initComponents();
         this.setTitle("Absen Masuk");
-         ClassLoader cl = this.getClass().getClassLoader();
+        ClassLoader cl = this.getClass().getClassLoader();
         try {
             BufferedImage image = ImageIO.read(cl.getResource("image/marketing 40x.png"));
             this.setIconImage(image);
@@ -191,6 +192,7 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, " generate Data" + e.getErrorCode() + "asdasdas");
         }
+        //nelusurin berapa pegawai yg ad d kantor itu trs dimasukin ke tabel
         for (int i = 0; i < NIP.size(); i++) {
             addData(NIP.get(i).toString(), kdJabatan.get(i).toString(), kdKantor.get(i).toString());
         }
@@ -275,6 +277,7 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
         LClock = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -309,12 +312,6 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
             }
         });
 
-        cbTgl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTglActionPerformed(evt);
-            }
-        });
-
         cbStatusmsk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ONTIME", "LATE", "EARLY", "OTHER" }));
         cbStatusmsk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,6 +334,13 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Lain-lain");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Home");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -353,44 +357,50 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 993, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txNamaKantor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbStatusmsk, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txNamaKantor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(cbStatusmsk, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbKantor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(cbTgl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(467, 467, 467))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbKantor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(cbTgl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnUpdate)
-                                .addGap(142, 142, 142)))))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LClock)
                 .addGap(18, 18, 18))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(btnUpdate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cbTgl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate)
-                    .addComponent(cbKantor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbKantor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txNamaKantor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,7 +446,7 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
     }
 
     private void runClock() {
-   Timer timer = new Timer(500, (ActionEvent e) -> {
+        Timer timer = new Timer(500, (ActionEvent e) -> {
             TikTok();
         });
         timer.setRepeats(true);
@@ -485,9 +495,9 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
                 null, //do not use a custom Icon
                 options, //the titles of buttons
                 options[0]); //default button title
-         {
+        {
             String selectedNIP = nama.getText();
-            java.sql.Date tglMsk = new java.sql.Date(new Date().getTime());
+            java.sql.Date tglMsk = new java.sql.Date(new Date().getTime());            
             if (selectedNIP != null) {
                 try {
                     Connection c = KoneksiDatabase.getKoneksi();
@@ -507,8 +517,9 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
                         }
                         p.setString(1, status);
                         p.setString(2, selectedNIP);
-                        p.setDate(3, tglMsk);
+                        p.setDate(3, tglMsk);                        
                         p.executeUpdate();
+                        
                     }
                 } catch (SQLException e) {
                     switch (e.getErrorCode()) {
@@ -530,9 +541,75 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void cbTglActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTglActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbTglActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int i = tabelAbsensi.getSelectedRow();
+        JPanel panel = new JPanel();
+        JComboBox list = new JComboBox();
+        JTextField nama = new JTextField();
+        panel.add(new JLabel("Isi Keterangan : "));
+        try {
+            //this.list.removeAllItems();
+            Connection c = KoneksiDatabase.getKoneksi();
+            Statement s = c.createStatement();
+            String sql = "SELECT * from pegawai";
+            ResultSet r = s.executeQuery(sql);
+
+            while (r.next()) {
+                list.addItem(r.getString("NIP"));
+            }
+        } catch (Exception e) {
+
+        }
+        panel.setLayout(new GridLayout(2, 4));
+        panel.add(new JLabel("Pilih NIP : "));
+        panel.add(nama);
+        panel.add(list);
+        //String selectedNIP = nama.getText();
+        int n;
+        Object[] options = {"Tambah",
+            "Batal"};
+        n = JOptionPane.showOptionDialog(null,
+                panel,
+                "Keterangan ",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, //do not use a custom Icon
+                options, //the titles of buttons
+                options[0]); //default button title
+        {
+            String SelectedNIP = list.getSelectedItem().toString();
+            java.sql.Date tglMsk = new java.sql.Date(new Date().getTime());            
+            String ket = nama.getText();
+            if (SelectedNIP != null) {
+                try {
+                    Connection c = KoneksiDatabase.getKoneksi();
+                    String sql = "UPDATE `absenmsk` "
+                            + "SET `ket` = ? "
+                            + "WHERE `absenmsk`.`NIP` =? "
+                            + "AND `absenmsk`.`tglmsk` = ?";
+                    try (PreparedStatement p = c.prepareStatement(sql)) {
+                        p.setString(1, (String) ket);
+                        p.setString(2, (String) SelectedNIP);
+                        p.setDate(3, tglMsk);
+                        p.executeUpdate();
+                    }
+                } catch (SQLException e) {
+                    switch (e.getErrorCode()) {
+                        default:
+                            JOptionPane.showMessageDialog(null,
+                                    e.getErrorCode() + " : " + e.getMessage(),
+                                    "(Data Eselon)Update record error!",
+                                    JOptionPane.ERROR_MESSAGE);
+                            break;
+
+                    }
+                } 
+            loadData(commandSQL);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -577,6 +654,7 @@ public class FormAbsensiMasuk extends javax.swing.JFrame {
     private javax.swing.JComboBox cbStatusmsk;
     private org.jdesktop.swingx.JXDatePicker cbTgl;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

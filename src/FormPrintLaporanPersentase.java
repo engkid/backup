@@ -40,7 +40,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
     private DefaultTableModel model = new javax.swing.table.DefaultTableModel(
             new Object[][]{},
             new String[]{
-                "NIP", "Nama", "Kantor", "Early", "Late", "On-Time", "Etc", "Kehadiran(%)", "Reward"
+                "NIP", "Nama", "Kantor", "Early", "Late", "On-Time", "Lain-lain", "Kehadiran(%)", "Reward"
             }
     ) {
         Class[] types = new Class[]{
@@ -461,7 +461,7 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addGap(74, 74, 74))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -469,9 +469,9 @@ public class FormPrintLaporanPersentase extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
